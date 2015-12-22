@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="com.hxchd.countit.Round">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_horizontal|top">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/checksum"
+                android:id="@+id/tv_checksum_text"
+                android:layout_alignParentStart="false"
+                android:layout_alignParentLeft="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/tv_checksum"
+                android:layout_alignEnd="@id/tv_checksum_text"
+                android:layout_alignRight="@id/tv_checksum_text"
+                android:layout_weight="1000"
+                android:layout_gravity="center_vertical" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/round_reset"
+                android:id="@+id/btn_round_reset"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_weight="0" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/round_done"
+                android:id="@+id/btn_round_done"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:layout_weight="0" />
+        </LinearLayout>
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/gv_round"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="50dp"
+            android:horizontalSpacing="50dp"
+            android:focusable="true"
+            android:padding="50dp" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="@string/no_game_round"
+            android:layout_gravity="center"
+            android:id="@+id/round_nogame" />
+    </LinearLayout>
+
+</FrameLayout>

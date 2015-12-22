@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">算了个账</string>
+    <string name="hello_world">Hello world!</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="round_name">开</string>
+    <string name="zts">猪头们</string>
+    <string name="history_record">战况</string>
+    <string name="checksum">校验：</string>
+    <string name="round_done">O了</string>
+    <string name="round_reset">重置</string>
+    <string name="win_count">赢：</string>
+    <string name="loss_count">输：</string>
+    <string name="draw_count">平：</string>
+    <string name="result_count">战绩：</string>
+    <string name="delta_count">本轮战绩：</string>
+    <string name="start_game">开一把</string>
+    <string name="check_start_game">确定要开一把么？之前的游戏数据就会消失了！</string>
+    <string name="add_zt">加猪头</string>
+    <string name="del_zt">删猪头</string>
+    <string name="about">哇哈哈</string>
+    <string name="about_info">哇哈哈，算错了不要打我，强烈建议使用一个记事本作为补充对比 ⊙﹏⊙</string>
+    <string name="title_activity_main">算了个账</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    <string name="clean_db">清除数据库</string>
+    <string name="default_zt_name">报上名来</string>
+    <string name="need_select_zt">猪头选得不够啊？</string>
+    <string name="no_zts">没有可用猪头，赶紧去加两个。。</string>
+    <string name="no_game">还没有开一把，先去选猪头开战！</string>
+    <string name="no_game_round">还没有开一把的时候不能开局！</string>
+    <string name="no_game_history">还没有开局数据，没战况！</string>
+    <string name="input_delta">请输入本轮战绩</string>
+</resources>

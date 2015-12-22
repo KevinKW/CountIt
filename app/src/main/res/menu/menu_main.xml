@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context="com.hxchd.countit.MainActivity">
+    <item android:id="@+id/action_start" android:title="@string/start_game"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_add_zt" android:title="@string/add_zt"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_del_zt" android:title="@string/del_zt"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_about" android:title="@string/about"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_clean_db" android:title="@string/clean_db"
+        android:orderInCategory="100" app:showAsAction="never" />
+</menu>
