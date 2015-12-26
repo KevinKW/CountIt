@@ -23,6 +23,14 @@ public class Zt {
         this.delta = 0;
     }
 
+    public void reset() {
+        win = 0;
+        loss = 0;
+        draw = 0;
+        result = 0;
+        delta = 0;
+    }
+
     public String toString() {
         return this.id + ":" + this.name;
     }

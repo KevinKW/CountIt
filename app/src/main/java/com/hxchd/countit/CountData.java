@@ -131,6 +131,7 @@ public class CountData extends SQLiteOpenHelper {
         cleanGame();
         for (Zt zt:zts) {
             addGameZt(zt);
+            zt.reset();
         }
     }
 
