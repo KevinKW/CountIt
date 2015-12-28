@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -33,7 +34,7 @@ import java.util.StringTokenizer;
 public class MainActivity extends ActionBarActivity {
     private static final String LOG_NAME = "CountIt";
     private CountData cd;
-    private ViewPager vp;
+    private CountItViewPager vp;
     private FragmentPagerAdapter fpa;
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     private ArrayList<Zt> zts = new ArrayList<>();
@@ -42,6 +43,11 @@ public class MainActivity extends ActionBarActivity {
     private ImageButton btn_round;
     private ImageButton btn_zts;
     private int round_id = 0;
+    private int touch_x = -1;
+    private int touch_y = -1;
+    private GridView gv_round;
+    private Zt src_zt;
+    private Zt dst_zt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +160,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void initView() {
         setContentView(R.layout.activity_main);
-        vp = (ViewPager) findViewById(R.id.viewpager);
+        vp = (CountItViewPager) findViewById(R.id.viewpager);
 
         Round r = new Round();
         fragmentList.add(r);
@@ -303,6 +309,11 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    public Zt getZtAtPosistion(int position) {
+        HashMap<String, Object> item = (HashMap<String, Object>) gv_round.getItemAtPosition(position);
+        return (Zt) item.get("zt");
+    }
+
     public void refreshRoundView() {
 
         resetBottomBtn();
@@ -330,14 +341,68 @@ public class MainActivity extends ActionBarActivity {
             SimpleAdapter sad = new SimpleAdapter(this, zt_items, R.layout.zt_round,
                     new String[]{"image", "name", "delta"},
                     new int[]{R.id.image, R.id.name, R.id.delta});
-            GridView gv = (GridView) findViewById(R.id.gv_round);
-            gv.setAdapter(sad);
-            gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            gv_round = (GridView) findViewById(R.id.gv_round);
+            gv_round.setAdapter(sad);
+            gv_round.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    HashMap<String, Object> item = (HashMap<String, Object>) parent.getItemAtPosition(position);
-                    Zt zt = (Zt) item.get("zt");
-                    setDelta(zt);
+                    Log.d(LOG_NAME, "Item click" + view);
+//                    HashMap<String, Object> item = (HashMap<String, Object>) parent.getItemAtPosition(position);
+//                    Zt zt = (Zt) item.get("zt");
+//                    setDelta(getZtAtPosistion(position));
+                }
+            });
+            gv_round.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    int tx;
+                    int ty;
+                    int position;
+                    Log.d(LOG_NAME, "I'm touch" + event);
+                    Log.d(LOG_NAME, "I'm touch" + v);
+
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            tx = (int) event.getX();
+                            ty = (int) event.getY();
+                            position = gv_round.pointToPosition(tx, ty);
+                            Log.d(LOG_NAME, "Get position: " + position);
+                            if (position == GridView.INVALID_POSITION) {
+                                vp.setTouchIntercept(true);
+                                return false;
+                            }
+                            src_zt = getZtAtPosistion(position);
+                            Log.d(LOG_NAME, "Get src_zt " + src_zt);
+                            vp.setTouchIntercept(false);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            tx = (int) event.getX();
+                            ty = (int) event.getY();
+                            position = gv_round.pointToPosition(tx, ty);
+                            Log.d(LOG_NAME, "Get position: " + position);
+                            if (position == GridView.INVALID_POSITION) {
+                                src_zt = null;
+                                vp.setTouchIntercept(true);
+                                return false;
+                            }
+                            dst_zt = getZtAtPosistion(position);
+                            if (src_zt.id != dst_zt.id) {
+                                setDelta(src_zt, dst_zt);
+                            } else {
+                                Log.d(LOG_NAME, "Same zt: " + src_zt);
+                                src_zt = null;
+                            }
+                            vp.setTouchIntercept(true);
+                            break;
+                        case MotionEvent.ACTION_CANCEL:
+                            Log.d(LOG_NAME, "Move is cancel");
+                            src_zt = null;
+                            vp.setTouchIntercept(true);
+                            break;
+                        case MotionEvent.ACTION_MOVE:
+                            break;
+                    }
+                    return true;
                 }
             });
 
@@ -495,7 +560,7 @@ public class MainActivity extends ActionBarActivity {
         dialog.create().show();
     }
 
-    public void setDelta(final Zt zt) {
+    public void setDelta(final Zt src_zt, final Zt dst_zt) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
         dialog.setIcon(R.drawable.ic_round_pressed);
         dialog.setTitle(R.string.input_delta);
@@ -528,7 +593,8 @@ public class MainActivity extends ActionBarActivity {
                 EditText et = (EditText) addRoundView.findViewById(R.id.et_delta);
                 String text = et.getText().toString().trim();
                 Log.d(LOG_NAME, "zt delta: " + text);
-                zt.delta = Integer.parseInt(text);
+                dst_zt.delta += Integer.parseInt(text);
+                src_zt.delta -= Integer.parseInt(text);
                 refreshRoundView();
             }
         });
